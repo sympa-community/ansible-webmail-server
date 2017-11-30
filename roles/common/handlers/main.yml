@@ -1,0 +1,10 @@
+---
+
+- name: restart iptables-persistent
+  service: name=iptables-persistent state=reloaded
+
+- name: restart ntpd
+  service: name=ntpd state=restarted
+
+- name: restart sshd
+  service: name=ssh state=restarted
