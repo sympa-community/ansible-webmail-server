@@ -1,0 +1,12 @@
+---
+# Requires Ansible >= 1.9
+- hosts: all
+  roles:
+  #- dumpvars
+  - ispmail-packages
+  - ispmail-certificate
+  - ispmail-database
+  - ispmail-postfix
+  - ispmail-dovecot
+  - ispmail-webmail
+  - ispmail-webmail-apache
