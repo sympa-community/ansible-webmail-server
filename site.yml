@@ -5,7 +5,7 @@
 
 - name: Configuration for all nodes
   hosts: all
-  sudo: True
+  become: yes
   tags: common
   gather_facts: no
   remote_user: "{{ ansible_remote_user }}"
@@ -14,16 +14,13 @@
   - common
 
 
-# Applies the "example" role to the hosts in the "example" group
-# In the default inventory the "example" group does not exists, nor are there hosts named "example". Therefore the
-# example role is not applied to any hosts
-- name: Apply role "example" to hosts in group "example"
-  hosts: example
-  sudo: True
-  tags: example
+# Applies the "mua" role to hosts belonging the the webmail group.
+- name: Apply role "mua" to hosts in group "webmail"
+  hosts: webmail
+  become: yes
+  tags: mua
   gather_facts: no
   remote_user: "{{ ansible_remote_user }}"
 
   roles:
-  - example
-# - some_other_role
+  - mua

@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
         # These are not used by provision.yml
 
         ansible.groups = {
-          "example" => ["webmail-server"],
+          "webmail" => ["webmail-server"],
         }
         ansible.playbook = "provision-vagrant-vm.yml"
         #ansible.verbose = "vvvv" # For troubleshooting ansible connection problems
