@@ -1,0 +1,28 @@
+- name: Install prerequisites for roundcube
+  tags: ispmail-packages
+  include_tasks: ispmail-packages.yml
+  
+- name: Install certificate
+  tags: ispmail-certificate
+  include_tasks: ispmail-certificate.yml
+  
+- name: Setup database for roundcube
+  tags: ispmail-database
+  include_tasks: ispmail-database.yml
+  
+- name: Setup postfix for roundcube
+  tags: ispmail-postfix
+  include_tasks: ispmail-postfix.yml
+  
+- name: Setup dovecot for roundcube
+  tags: ispmail-dovecot
+  include_tasks: ispmail-dovecot.yml
+  
+- name: Install roundcube
+  tags: ispmail-webmail
+  include_tasks: ispmail-webmail.yml
+  
+- name: Setup Apache for roundcube
+  tags: ispmail-webmail-apache
+  include_tasks: ispmail-webmail-apache.yml
+ 

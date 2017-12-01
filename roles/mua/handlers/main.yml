@@ -1,0 +1,11 @@
+---
+- name: restart apache
+  service: name=apache2 state=restarted
+- name: restart dovecot
+  service: name=dovecot state=restarted
+- name: recompile sieve script
+  command: sievec /etc/dovecot/sieve-after
+- name: restart postfix
+  service: name=postfix state=restarted
+- name: restart spamassassin
+  service: name=spamassassin state=restarted
