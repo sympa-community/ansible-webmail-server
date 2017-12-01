@@ -80,9 +80,6 @@
   user: name=spamass-milter groups=debian-spamd
   notify: restart spamassassin
 
-- name: Enabling spamd at startup
-  command: systemctl enable spamassassin
-
 - name: Allow emails up to 40 MB large
   command: postconf message_size_limit=41943040
 
