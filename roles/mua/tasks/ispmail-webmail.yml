@@ -1,6 +1,4 @@
 ---
-- name: adding Jessie backports repository (for Roundcube)
-  apt_repository: repo='deb http://http.debian.net/debian jessie-backports main' state=present
 - name: install required binary packages
   apt: name={{item}} state=installed
   with_items:

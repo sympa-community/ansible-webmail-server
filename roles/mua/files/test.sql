@@ -3,7 +3,7 @@ REPLACE INTO `mailserver`.`virtual_domains` (
       `name`
 )
 VALUES (
-      '1', 'example.org'
+      '1', 'webmail.com'
 );
 REPLACE INTO `mailserver`.`virtual_users` (
       `id` ,
@@ -12,7 +12,7 @@ REPLACE INTO `mailserver`.`virtual_users` (
       `email`
 )
 VALUES (
-      '1', '1', CONCAT('{PLAIN-MD5}', MD5( 'summersun' )) , 'john@example.org'
+      '1', '1', CONCAT('{PLAIN-MD5}', MD5( 'summersun' )) , 'john@webmail.com'
 );
 REPLACE INTO `mailserver`.`virtual_aliases` (
       `id`,
@@ -21,6 +21,6 @@ REPLACE INTO `mailserver`.`virtual_aliases` (
       `destination`
 )
 VALUES (
-      '1', '1', 'jack@example.org', 'john@example.org'
+      '1', '1', 'jack@webmail.com', 'john@webmail.com'
 );
 
