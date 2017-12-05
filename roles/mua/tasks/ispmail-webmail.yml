@@ -2,8 +2,10 @@
 - name: install required binary packages
   apt: name={{item}} state=installed
   with_items:
-  - roundcube 
+  - roundcube
+  - roundcube-mysql
   - roundcube-plugins
+  - postfixadmin
 - name: Creating random des_key for Roundcube
   shell: pwgen 24
   register: roundcube_random_des_key
