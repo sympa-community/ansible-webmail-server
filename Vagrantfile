@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
 
     # The VM Image to use. Find others at: http://vagrantcloud.com
     # Note: The "nocm" version of this box does not have any puppet software installed
-    config.vm.box = "puppetlabs/ubuntu-14.04-64-nocm"
+    config.vm.box = "puppetlabs/ubuntu-16.04-64-nocm"
 
     # VM: "webmail-server"
     config.vm.define "webmail-server" do |conf|

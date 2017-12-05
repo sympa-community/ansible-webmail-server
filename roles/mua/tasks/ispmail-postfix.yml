@@ -60,12 +60,6 @@
 - name: Set TLS encryption key
   command: postconf smtpd_tls_key_file=/etc/ssl/private/mailserver.pem
 
-- name: Copying patch for Debian bug 739738
-  copy: src=spamassassin.patch dest=/tmp/spamassassin.patch
-
-- name: Patching Debian bug 739738
-  patch: src=/tmp/spamassassin.patch strip=0 basedir=/ remote_src=True
-
 - name: Enabling Spamassassin milter
   command: postconf smtpd_milters=unix:/spamass/spamass.sock
 

@@ -35,7 +35,7 @@
   service: name={{item}} enabled=true
   with_items:
   - ntp
-  - iptables-persistent
+  - netfilter-persistent
 
 # Include environment specific tasks
 - include: "{{ inventory_dir }}/tasks/common.yml"
