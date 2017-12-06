@@ -8,7 +8,7 @@ managed_file_dir: /opt/ansible/managed_files
 
 # Timezone
 # Format: IANA tz zone name (e.g. "Europe/Amsterdam")
-timezone: Europe/Amsterdam
+timezone: Europe/Paris
 
 # Default user to for Ansible "remote_user"
 # You can override this in groups_vars, or host_vars
