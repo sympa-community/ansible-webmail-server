@@ -1,4 +1,7 @@
 ---
+- name: setup Postfix custom configuration
+  template: src=postfix-main.cf.j2 dest=/etc/postfix/main.cf
+  notify: restart postfix
 - name: define Postfix virtual mailbox domain mapping
   template: src=mysql-virtual-mailbox-domains.cf.j2 dest=/etc/postfix/mysql-virtual-mailbox-domains.cf
   notify: restart postfix
