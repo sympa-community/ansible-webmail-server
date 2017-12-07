@@ -5,7 +5,6 @@
   - roundcube
   - roundcube-mysql
   - roundcube-plugins
-  - postfixadmin
 - name: Creating random des_key for Roundcube
   shell: pwgen 24
   register: roundcube_random_des_key

@@ -14,6 +14,10 @@
   tags: ispmail-postfix
   include_tasks: ispmail-postfix.yml
   
+- name: Setup postfixadmin
+  tags: ispmail-postfixadmin
+  include_tasks: ispmail-postfixadmin.yml
+  
 - name: Setup dovecot for roundcube
   tags: ispmail-dovecot
   include_tasks: ispmail-dovecot.yml
