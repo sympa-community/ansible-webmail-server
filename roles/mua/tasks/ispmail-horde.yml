@@ -1,0 +1,43 @@
+- name: Install required binary packages
+  apt: name={{item}} state=installed
+  with_items:
+  - php-pear
+
+- name: Check if horde pear channel is installed
+  shell: pear list-channels | grep pear.horde.org
+  register: channel_registered
+
+- name: Discover horde PEAR channel
+  command: pear channel-discover pear.horde.org
+  when: channel_registered.stdout == ''
+
+- name: Check if horde pear package is installed
+  shell: pear list -c pear.horde.org | grep Horde_Role
+  register: package_installed
+
+- name: Install horde package
+  command: pear install horde/horde_role
+  when: package_installed.stdout == ''
+
+- name: run scripts on horde package
+  command: pear run-scripts horde/horde_role
+  when: package_installed.stdout == ''
+
+- name: Check if horde pear webmail is installed
+  shell: pear list -c pear.horde.org | grep webmail
+  register: webmail_package_installed
+  ignore_errors: yes
+
+- name: Install horde webmail
+  command: pear install -a -B horde/webmail
+  when: webmail_package_installed.stdout == ''
+
+- name: Finalize horde webmail install
+  command: webmail-install
+
+- lineinfile:
+    path: /etc/apache2.conf
+    state: present
+    regexp: '^AcceptPathInfo'
+    line: 'AcceptPathInfo On'
+

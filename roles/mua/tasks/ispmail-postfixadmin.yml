@@ -1,0 +1,12 @@
+---
+- name: install required binary packages
+  apt: name={{item}} state=installed
+  with_items:
+  - postfixadmin
+
+- name: setup Postfix custom configuration
+  template: src=postfixadmin-{{ item }}.inc.php.j2 dest=/etc/postfixadmin/{{ item }}.inc.php
+  notify: restart apache
+  with_items:
+  - config
+  - dbconfig
