@@ -101,7 +101,7 @@ $CONF['smtp_port'] = '25';
 // mysql_encrypt = useful for PAM integration
 // authlib = support for courier-authlib style passwords
 // dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. Example: dovecot:CRAM-MD5
-$CONF['encrypt'] = 'md5crypt';
+$CONF['encrypt'] = 'dovecot:MD5-CRYPT';
 
 // In what flavor should courier-authlib style passwords be enrypted?
 // md5 = {md5} + base64 encoded md5 hash
@@ -159,6 +159,8 @@ $CONF['domain_in_mailbox'] = 'YES';
 //   - the maildir_name_hook() function example is present below, commented out
 //   - if the function does not exist the program will default to the above domain_path and domain_in_mailbox settings
 $CONF['maildir_name_hook'] = 'NO';
+$CONF['domain_quota'] = 'NO';
+$CONF['domain_quota_default'] = '0';
 
 /*
     maildir_name_hook example function
@@ -305,7 +307,7 @@ EOM;
 
 // When creating mailboxes or aliases, check that the domain-part of the
 // address is legal by performing a name server look-up.
-$CONF['emailcheck_resolve_domain']='YES';
+$CONF['emailcheck_resolve_domain']='NO';
 
 
 // Optional:

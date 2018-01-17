@@ -3,6 +3,38 @@
   apt: name={{item}} state=installed
   with_items:
   - postfixadmin
+  - git
+
+- name: Upgrade to postfixadmin 3.0.1
+  apt:
+    deb: http://download.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin-3.1/postfixadmin_3.1-1_all.deb
+
+- name: Ensure no previous checkout exists
+  file:
+    path: /tmp/postfixadmin
+    state: absent
+
+- name: Retrieving additional scripts from postfixadmin trunk
+  git:
+    repo: https://github.com/postfixadmin/postfixadmin.git
+    dest: /tmp/postfixadmin
+
+- name: Merging repo with .deb files.
+  command: rsync --exclude 'config.inc.php' --exclude 'dbconfig.inc.php' -a /tmp/postfixadmin/ /usr/share/postfixadmin
+
+- name: Setting postfixadmin permissions
+  file:
+    path: "/usr/share/postfixadmin"
+    owner: root
+    group: root
+    recurse: yes
+
+- name: Ensure no previous checkout exists
+  file:
+    path: "/usr/share/postfixadmin/templates_c"
+    state: directory
+    owner: www-data
+    group: www-data
 
 - name: setup Postfix custom configuration
   template: src=postfixadmin-{{ item }}.inc.php.j2 dest=/etc/postfixadmin/{{ item }}.inc.php
@@ -10,3 +42,21 @@
   with_items:
   - config
   - dbconfig
+
+- name: Run setup.php
+  shell: php setup.php
+  args:
+    chdir: "/usr/share/postfixadmin"
+  become: true
+
+- name: Creating domain
+  command: "/usr/share/postfixadmin/scripts/postfixadmin-cli domain add {{ ispmail_webmail_hostname }} --mailboxes 0 --aliases 0  --backupmx 1 --active"
+
+- name: Populate admin users
+  command: "/usr/share/postfixadmin/scripts/postfixadmin-cli admin add {{ item.username }}@{{ ispmail_webmail_hostname }} --password {{ item.password }} --password2 {{ item.password }} --superadmin 1 --active"
+  with_items: "{{ ispmail_admin_users }}"
+
+- name: Populate users
+  command: "/usr/share/postfixadmin/scripts/postfixadmin-cli mailbox add {{ item.username }}@{{ ispmail_webmail_hostname }} --password {{ item.password }} --password2 {{ item.password }} --active"
+  with_items: "{{ ispmail_users }}"
+  

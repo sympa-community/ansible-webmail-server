@@ -138,8 +138,7 @@ CREATE TABLE IF NOT EXISTS `mailbox` (
   `created` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
   `modified` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
   `active` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`username`),
-  KEY `domain` (`domain`)
+  PRIMARY KEY (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Postfix Admin - Virtual Mailboxes';
 
 --
