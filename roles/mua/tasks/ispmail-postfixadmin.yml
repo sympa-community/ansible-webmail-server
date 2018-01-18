@@ -4,6 +4,7 @@
   with_items:
   - postfixadmin
   - git
+  - emacs
 
 - name: Upgrade to postfixadmin 3.0.1
   apt:

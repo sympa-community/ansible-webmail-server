@@ -31,20 +31,37 @@ smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_una
 myhostname = {{ ispmail_webmail_hostname }}
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-mydestination = $myhostname, webmail-server, localhost.localdomain, , localhost
+mydestination = webmail-server, localhost.localdomain, , localhost
 relayhost = {{ ispmail_outgoing_server }}
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 inet_protocols = all
-virtual_mailbox_domains = mysql:/etc/postfix/mysql-virtual-mailbox-domains.cf
-virtual_mailbox_maps = mysql:/etc/postfix/mysql-virtual-mailbox-maps.cf
-virtual_alias_maps = mysql:/etc/postfix/mysql-virtual-alias-maps.cf,mysql:/etc/postfix/mysql-email2email.cf
-virtual_transport = lmtp:unix:private/dovecot-lmtp
+
+# Pour la redirection
+#virtual_transport = lmtp:unix:private/lmtp
+virtual_transport = virtual
+
+# Stockage domaine
+virtual_mailbox_domains = mysql:/etc/postfix/mysql/virtual_domains_maps.cf
+virtual_alias_maps = mysql:/etc/postfix/mysql/virtual_alias_maps.cf
 virtual_mailbox_base = /var/mail/vmail
 
-dovecot_destination_recipient_limit = 1
+# Stockage email
+virtual_mailbox_maps = mysql:/etc/postfix/mysql/virtual_mailbox_maps.cf
+virtual_minimum_uid = 100
+virtual_uid_maps = static:2000
+virtual_gid_maps = static:2000
+
+# Support du relay
+#relay_domains = proxy:mysql:/etc/postfix/mysql/relay_domains.cf
+
+local_transport = virtual
+local_recipient_maps = $virtual_mailbox_maps
+# this is only needed if you want vacation support -
+#transport_maps = hash:/etc/postfix/transport
+
 smtpd_sasl_type = dovecot
 smtpd_sasl_path = private/auth
 smtpd_sasl_auth_enable = yes
@@ -53,3 +70,20 @@ smtpd_tls_auth_only = yes
 smtpd_milters = unix:/spamass/spamass.sock
 milter_connect_macros = i j {daemon_name} v {if_name} _
 message_size_limit = 41943040
+
+## Dovecot SASL settings.
+smtpd_sasl_type = dovecot
+
+# Can be an absolute path, or relative to $queue_directory
+# Debian/Ubuntu users: Postfix is setup by default to run chrooted, so it is best to leave it as-is below
+smtpd_sasl_path = private/auth
+
+# and the common settings to enable SASL:
+smtpd_sasl_auth_enable = yes
+# With Postfix version before 2.10, use smtpd_recipient_restrictions
+#smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
+
+milter_default_action = accept
+milter_protocol = 6
+smtpd_milters = inet:localhost:23456
+non_smtpd_milters = inet:localhost:23456
