@@ -1,0 +1,5 @@
+user = postfixadmin
+password = {{ispmail_mysql_mailuser_password}}
+hosts = localhost
+dbname = postfixadmin
+query = SELECT domain FROM domain WHERE domain='%s' and backupmx = true

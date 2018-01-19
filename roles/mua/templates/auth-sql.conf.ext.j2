@@ -16,16 +16,16 @@ passdb {
 #  driver = prefetch
 #}
 
-userdb {
-  driver = static
-  args = uid=vmail gid=vmail home=/var/vmail/%d/%n
-}
+#userdb {
+#  driver = static
+#  args = uid={{ dovecot_user }} gid={{ dovecot_group }} home=/var/vmail/%d/%n
+#}
 
 # If you don't have any user-specific settings, you can avoid the user_query
 # by using userdb static instead of userdb sql, for example:
 # <doc/wiki/UserDatabase.Static.txt>
-#userdb {
-  #driver = static
-  #args = uid=vmail gid=vmail home=/var/vmail/%u
-#}
+userdb {
+  driver = static
+  args = uid={{ dovecot_user }} gid={{ dovecot_group }} home=/var/vmail/%u
+}
 

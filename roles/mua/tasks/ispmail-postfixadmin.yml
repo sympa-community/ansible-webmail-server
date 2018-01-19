@@ -54,10 +54,14 @@
   command: "/usr/share/postfixadmin/scripts/postfixadmin-cli domain add {{ ispmail_webmail_hostname }} --mailboxes 0 --aliases 0  --backupmx 1 --active"
 
 - name: Populate admin users
-  command: "/usr/share/postfixadmin/scripts/postfixadmin-cli admin add {{ item.username }}@{{ ispmail_webmail_hostname }} --password {{ item.password }} --password2 {{ item.password }} --superadmin 1 --active"
+  command: "/usr/share/postfixadmin/scripts/postfixadmin-cli admin add {{ item.username }}@{{ ispmail_webmail_hostname }} --password {{ item.password }} --password2 {{ item.password }} --domains {{ ispmail_webmail_hostname }} --active"
   with_items: "{{ ispmail_admin_users }}"
 
 - name: Populate users
   command: "/usr/share/postfixadmin/scripts/postfixadmin-cli mailbox add {{ item.username }}@{{ ispmail_webmail_hostname }} --password {{ item.password }} --password2 {{ item.password }} --active"
   with_items: "{{ ispmail_users }}"
+  
+- name: Populate aliases
+  command: "/usr/share/postfixadmin/scripts/postfixadmin-cli alias add {{ item.username }}@{{ ispmail_webmail_hostname }} --goto {{ item.target }}@{{ ispmail_webmail_hostname }} --active"
+  with_items: "{{ ispmail_aliases }}"
   

@@ -27,3 +27,19 @@ ispmail_list_servers:
     ip: '192.168.66.67'
 
 ispmail_outgoing_server: '192.168.66.67'
+
+ispmail_admin_users:
+  -
+    username: 'postmaster'
+    password: 'turlututu'
+
+ispmail_users:
+  -
+    username: 'david'
+    password: 'turlututu'
+
+dovecot_user: vmail
+dovecot_uid: "2000"
+dovecot_group: vmail
+dovecot_gid: "2000"
+
