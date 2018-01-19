@@ -43,3 +43,5 @@ dovecot_uid: "2000"
 dovecot_group: vmail
 dovecot_gid: "2000"
 
+horde_db_user: horde
+horde_db_password: horde

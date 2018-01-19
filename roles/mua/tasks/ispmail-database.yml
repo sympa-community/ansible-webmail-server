@@ -8,3 +8,7 @@
   mysql_db: name=postfixadmin state=present login_user=root login_password={{ispmail_mysql_root_password}}
 - name: creating MySQL user to read the postfixadmin database
   mysql_user: name=postfixadmin password={{ispmail_mysql_mailuser_password}} priv=postfixadmin.*:ALL state=present login_user=root login_password={{ispmail_mysql_root_password}}
+- name: creating Horde MySQL database
+  mysql_db: name=horde state=present login_user=root login_password={{ispmail_mysql_root_password}}
+- name: creating MySQL user to read the horde database
+  mysql_user: name={{ horde_db_user }} password={{ horde_db_password }} priv=horde.*:ALL state=present login_user=root login_password={{ispmail_mysql_root_password}}

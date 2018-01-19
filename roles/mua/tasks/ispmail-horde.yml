@@ -2,10 +2,12 @@
   apt: name={{item}} state=installed
   with_items:
   - php-pear
+  - python-pexpect
 
 - name: Check if horde pear channel is installed
   shell: pear list-channels | grep pear.horde.org
   register: channel_registered
+  failed_when: channel_registered.rc >= 2
 
 - name: Discover horde PEAR channel
   command: pear channel-discover pear.horde.org
@@ -14,19 +16,22 @@
 - name: Check if horde pear package is installed
   shell: pear list -c pear.horde.org | grep Horde_Role
   register: package_installed
+  failed_when: package_installed.rc >= 2
 
 - name: Install horde package
   command: pear install horde/horde_role
   when: package_installed.stdout == ''
 
 - name: run scripts on horde package
-  command: pear run-scripts horde/horde_role
-  when: package_installed.stdout == ''
+  expect:
+    command: pear run-scripts horde/horde_role
+    responses:
+      "Filesystem location for the base Horde application : ": "/usr/share/horde"
 
 - name: Check if horde pear webmail is installed
   shell: pear list -c pear.horde.org | grep webmail
   register: webmail_package_installed
-  ignore_errors: yes
+  failed_when: webmail_package_installed.rc >= 2
 
 - name: Install horde webmail
   command: pear install -a -B horde/webmail
@@ -34,6 +39,22 @@
 
 - name: Finalize horde webmail install
   command: webmail-install
+- name: run scripts on horde package
+  expect:
+    command: pear run-scripts horde/horde_role
+    responses:
+      ^What database backend should we use.*: "mysql"
+      ^Username to connect to the database as.*: "{{ horde_db_user }}"
+      ^Password to connect with.*: "{{ horde_db_password }}"
+      ^How should we connect to the database.*: "tcp"
+      ^Database server.*: "localhost"
+      ^Port the DB is running on, if non-standard.*: "3306"
+      ^Database name to use.*: "horde"
+      ^Internally used charset.*: "utf-8"
+      ^Use SSL to connect to the server.*: "false"
+      ^Split reads to a different server.*: "false"
+      ^Should Horde log all queries.*: "0"
+
 
 - lineinfile:
     path: /etc/apache2.conf
