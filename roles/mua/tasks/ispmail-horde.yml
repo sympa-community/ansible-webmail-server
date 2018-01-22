@@ -43,17 +43,18 @@
   expect:
     command: pear run-scripts horde/horde_role
     responses:
-      ^What database backend should we use.*: "mysql"
-      ^Username to connect to the database as.*: "{{ horde_db_user }}"
-      ^Password to connect with.*: "{{ horde_db_password }}"
-      ^How should we connect to the database.*: "tcp"
-      ^Database server.*: "localhost"
-      ^Port the DB is running on, if non-standard.*: "3306"
-      ^Database name to use.*: "horde"
-      ^Internally used charset.*: "utf-8"
-      ^Use SSL to connect to the server.*: "false"
-      ^Split reads to a different server.*: "false"
-      ^Should Horde log all queries.*: "0"
+      Filesystem location for the base Horde application.*: /usr/share/horde
+      What database backend should we use.*: "mysql"
+      Username to connect to the database as.*: "{{ horde_db_user }}"
+      Password to connect with.*: "{{ horde_db_password }}"
+      How should we connect to the database.*: "tcp"
+      Database server.*: "localhost"
+      Port the DB is running on, if non-standard.*: "3306"
+      Database name to use.*: "horde"
+      Internally used charset.*: "utf-8"
+      Use SSL to connect to the server.*: "false"
+      Split reads to a different server.*: "false"
+      Should Horde log all queries.*: "0"
 
 
 - lineinfile:

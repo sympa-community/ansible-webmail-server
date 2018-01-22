@@ -10,6 +10,14 @@
   tags: ispmail-database
   include_tasks: ispmail-database.yml
   
+- name: Setup web server certificate
+  tags: ispmail-certificate
+  include_tasks: ispmail-certificate.yml
+  
+- name: Setup web server
+  tags: ispmail-webmail-apache
+  include_tasks: ispmail-webmail-apache.yml
+  
 - name: Setup postfix
   tags: ispmail-postfix
   include_tasks: ispmail-postfix.yml
