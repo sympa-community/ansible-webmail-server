@@ -23,6 +23,12 @@
   - iptables-persistent
   - rsyslog
 
+- name: Enable services ntpd, iptables-persistent on boot
+  service: name={{item}} enabled=true
+  with_items:
+  - ntp
+  - netfilter-persistent
+
 - name: Put iptables configuration
   template: src={{ inventory_dir }}/templates/common/{{item}}.j2 dest=/etc/iptables/{{ item }}
   with_items:
@@ -30,12 +36,6 @@
     - rules.v6
   notify:
   - restart iptables-persistent
-
-- name: Enable services ntpd, iptables-persistent on boot
-  service: name={{item}} enabled=true
-  with_items:
-  - ntp
-  - netfilter-persistent
 
 # Include environment specific tasks
 - include: "{{ inventory_dir }}/tasks/common.yml"
