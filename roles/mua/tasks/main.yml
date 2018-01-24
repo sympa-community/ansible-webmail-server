@@ -1,4 +1,4 @@
-- name: Install prerequisites for roundcube
+- name: Install prerequisites for webmail
   tags: ispmail-packages
   include_tasks: ispmail-packages.yml
   
