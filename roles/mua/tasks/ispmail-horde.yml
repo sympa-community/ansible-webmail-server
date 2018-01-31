@@ -22,11 +22,17 @@
   command: pear install horde/horde_role
   when: package_installed.stdout == ''
 
-#~ - name: run scripts on horde package
-  #~ expect:
-    #~ command: pear run-scripts horde/horde_role
-    #~ responses:
-      #~ '*Filesystem location for the base Horde application*': "/usr/share/horde"
+- name: Generating expct setup scripts
+  template:
+    src: "{{ item }}.sh.j2"
+    dest: "/tmp/{{ item }}.sh"
+    mode: "+x"
+  with_items:
+    - horde-run-script
+    - webmail_install-script
+
+- name: Run scripts on horde package
+  command: /tmp/horde-run-script.sh
 
 - name: Check if horde pear webmail is installed
   shell: pear list -c pear.horde.org | grep webmail
@@ -38,24 +44,11 @@
   when: webmail_package_installed.stdout == ''
 
 - name: Finalize horde webmail install
-  expect:
-    command: webmail-install
-    responses:
-      '*Filesystem location for the base Horde application*': "/usr/share/horde"
-      '*What database backend should we use*': "mysql"
-      '*Username to connect to the database as*': "{{ horde_db_user }}"
-      '*Password to connect with*': "{{ horde_db_password }}"
-      '*How should we connect to the database*': "tcp"
-      '*Database server*': "localhost"
-      '*Port the DB is running on, if non-standard*': "3306"
-      '*Database name to use*': "horde"
-      '*Internally used charset*': "utf-8"
-      '*Use SSL to connect to the server*': "false"
-      '*Split reads to a different server*': "false"
-      '*Should Horde log all queries*': "0"
+  command: /tmp/webmail_install-script.sh
+  become: true
 
 - lineinfile:
-    path: /etc/apache2.conf
+    path: /etc/apache2/apache2.conf
     state: present
     regexp: '^AcceptPathInfo'
     line: 'AcceptPathInfo On'
@@ -68,8 +61,8 @@
 - name: configuring horde to use postfixadmin accounts.
   template:
     src: horde-password-backend.php.j2
-    dest: /usr/share/horde/passwd/config/backends.php
-  notify: restart apche
+    dest: /usr/share/php/www/horde/config/backends.php
+  notify: restart apache
     
 - name: Enabling horde web config
   command: a2enconf horde

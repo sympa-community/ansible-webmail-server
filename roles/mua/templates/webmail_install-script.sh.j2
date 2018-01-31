@@ -1,0 +1,55 @@
+#!/usr/bin/expect -f                                                                                                                                                                                                                          
+
+set timeout -1
+
+spawn webmail-install
+
+expect "*What database backend should we use*"
+
+send -- "mysql\r"
+
+expect "*Username to connect to the database as*"
+
+send -- "{{ horde_db_user }}\r"
+
+expect "*Password to connect with*"
+
+send -- "{{ horde_db_password }}\r"
+
+expect "*How should we connect to the database*"
+
+send -- "tcp\r"
+
+expect "*Database server*"
+
+send -- "localhost\r"
+
+expect "*Port the DB is running on, if non-standard*"
+
+send -- "3306\r"
+
+expect "*Database name to use*"
+
+send -- "horde\r"
+
+expect "*Internally used charset*"
+
+send -- "utf-8\r"
+
+expect "*Use SSL to connect to the server*"
+
+send -- "false\r"
+
+expect "*Split reads to a different server*"
+
+send -- "false\r"
+
+expect "*Should Horde log all queries*"
+
+send -- "0\r"
+
+expect "*permissions (optional)*"
+
+send -- "\r"
+
+expect eof

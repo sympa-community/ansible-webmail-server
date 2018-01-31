@@ -1,0 +1,11 @@
+#!/usr/bin/expect -f                                                                                                                                                                                                                          
+
+set timeout -1
+
+spawn pear run-scripts horde/horde_role
+
+expect "*Filesystem location for the base Horde application*"
+
+send -- "/usr/share/php/www/horde/\r"
+
+expect eof
