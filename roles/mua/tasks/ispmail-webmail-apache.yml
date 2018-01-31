@@ -3,6 +3,7 @@
   with_items:
   - apache2
   - libapache2-mod-php
+  
   notify: restart apache
 - name: Create Apache vhost configuration for HTTPS (Horde and PHPmyadmin)
   template: src=webmail.conf-443.j2 dest=/etc/apache2/sites-available/default-ssl.conf

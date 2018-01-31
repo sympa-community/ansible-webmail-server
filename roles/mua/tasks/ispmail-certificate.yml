@@ -1,13 +1,49 @@
 ---
-- name: Create a self-signed certificate
+- name: Create a self-signe root authority
   command: >
-    openssl req -newkey rsa:4096
-      -nodes -sha512 -x509
-      -days {{ ispmail_certificate_days_valid }}
+    openssl genrsa -out /etc/ssl/private/rootCA.key 2048
+  args:
+    creates: /etc/ssl/private/rootCA.key
+
+- name: Create a self-signed root authority
+  command: >
+    openssl req 
+      -x509
+      -new
       -nodes
+      -key /etc/ssl/private/rootCA.key
+      -sha256
+      -subj "/C={{ ispmail_certificate_country }}/ST={{ ispmail_certificate_state }}/L={{ ispmail_certificate_location }}/O={{ ispmail_certificate_organisation }}/OU={{ ispmail_certificate_orgunit }}/emailAddress={{ ispmail_certificate_email }}"
+      -days 1024
+      -out /etc/ssl/certs/rootCA.pem
+  args:
+    creates: /etc/ssl/certs/rootCA.pem
+
+- name: Create new key
+  command: >
+    openssl genrsa -out /etc/ssl/private/mailserver.pem 2048
+  args:
+    creates: /etc/ssl/private/mailserver.pem
+
+- name: generate CSR from self-signed authority
+  command: >
+    openssl req
+      -new
+      -key /etc/ssl/private/mailserver.pem
+      -out /tmp/mailserver.csr
       -subj "/C={{ ispmail_certificate_country }}/ST={{ ispmail_certificate_state }}/L={{ ispmail_certificate_location }}/O={{ ispmail_certificate_organisation }}/OU={{ ispmail_certificate_orgunit }}{% for domain in ispmail_certificate_domains %}/CN={{ domain }}{% endfor %}/emailAddress={{ ispmail_certificate_email }}"
-      -out /etc/ssl/certs/mailserver.pem
-      -keyout /etc/ssl/private/mailserver.pem
+
+- name: Create authority-signed certificate
+  command: >
+    openssl x509
+    -req
+    -in /tmp/mailserver.csr
+    -CA /etc/ssl/certs/rootCA.pem
+    -CAkey /etc/ssl/private/rootCA.key
+    -CAcreateserial
+    -out /etc/ssl/certs/mailserver.pem
+    -days 1024
+    -sha256
   args:
     creates: /etc/ssl/certs/mailserver.pem
 - name: Restrict access permissions of the private key
