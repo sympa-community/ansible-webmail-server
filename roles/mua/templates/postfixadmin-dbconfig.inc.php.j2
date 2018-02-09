@@ -9,10 +9,10 @@
 ## you'll probably also want to edit the configuration file mentioned
 ## above too.
 ##
-$dbuser='postfixadmin';
+$dbuser='{{ ispmail_mysql_mailuser }}';
 $dbpass='{{ispmail_mysql_mailuser_password}}';
 $basepath='';
-$dbname='postfixadmin';
+$dbname='{{ ispmail_mysql_mail_db_name }}';
 $dbserver='localhost';
 $dbport='';
 $dbtype='mysqli';

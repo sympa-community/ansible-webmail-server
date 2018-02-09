@@ -1,5 +1,5 @@
-user = postfixadmin
+user = {{ ispmail_mysql_mailuser }}
 password = {{ispmail_mysql_mailuser_password}}
-dbname = postfixadmin
+dbname = {{ ispmail_mysql_mail_db_name }}
 hosts = 127.0.0.1
 query = SELECT maildir FROM mailbox WHERE username='%s' AND active = true

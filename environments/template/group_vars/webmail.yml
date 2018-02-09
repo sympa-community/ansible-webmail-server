@@ -1,6 +1,13 @@
 ispmail_populate_test_data: true
 
-ispmail_mysql_mailuser_password: ChangeMe
+ispmail_mysql_mailuser: postfixadmin
+ispmail_mysql_mailuser_password: postfixadmin
+ispmail_mysql_mail_db_name: postfixadmin
+horde_db_user: horde
+horde_db_password: horde
+horde_db_name: horde
+ispmail_mysql_root_password: ChangeMeRoot
+
 ispmail_mysql_root_password: ChangeMeRoot
 
 ispmail_dovecot_auth_mechanisms: plain login
@@ -30,17 +37,16 @@ ispmail_outgoing_server: '192.168.66.67'
 ispmail_admin_users:
   -
     username: 'postmaster'
-    password: 'turlututu'
+    password: 'turlututu01'
 
 ispmail_users:
   -
     username: 'david'
-    password: 'turlututu'
+    password: 'turlututu01'
 
 dovecot_user: vmail
 dovecot_uid: "2000"
 dovecot_group: vmail
 dovecot_gid: "2000"
 
-horde_db_user: horde
-horde_db_password: horde
+password_encryption: md5crypt

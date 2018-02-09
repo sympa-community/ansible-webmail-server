@@ -61,6 +61,12 @@
     dest: /etc/dovecot/conf.d/10-auth.conf
   notify: restart dovecot
   
+- name: Configuring SQL-based authentication
+  template:
+    src: 10-mail.conf.j2
+    dest: /etc/dovecot/conf.d/10-mail.conf
+  notify: restart dovecot
+  
 - name: define dovecot mailbox and namespace configuration
   template:
     src: postfix-mysql-relay_domains.cf.j2

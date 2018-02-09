@@ -1,0 +1,21 @@
+<? php
+$conf['auth']['driver'] = 'customsql';
+$conf['auth']['params']['count_bad_logins'] = true;
+$conf['auth']['params']['login_block'] = true;
+$conf['auth']['params']['phptype'] = 'mysqli';
+$conf['auth']['params']['socket'] = '/var/run/mysqld/mysqld.sock';
+$conf['auth']['params']['protocol'] = 'unix';
+$conf['auth']['params']['username'] = '{{ horde_db_user }}';
+$conf['auth']['params']['password'] = '{{ horde_db_password }}';
+$conf['auth']['params']['database'] = '{{ ispmail_mysql_mail_db_name }}';
+$conf['auth']['params']['query_auth'] = 'SELECT * FROM mailbox WHERE username=\L AND domain=SUBSTRING_INDEX(\L, \'@\', -1) AND password = \P AND active=\'1\'';
+//$conf['auth']['params']['query_add'] = 'INSERT INTO mailbox (username, password, name, maildir, quota, local_part, domain, created, modified, active) VALUES( \L, \P, \'\', CONCAT(SUBSTRING_INDEX(\L, \'@\', -1),\'/\',SUBSTRING_INDEX(\L, \'@\', 1),\'/\'), \'0\', SUBSTRING_INDEX(\L, \'@\', 1), SUBSTRING_INDEX(\L, \'@\', -1), NOW(), NOW(), \'1\'); INSERT INTO alias (address, goto, domain, created, modified, active) VALUES ( \L, \L, SUBSTRING_INDEX(\L, \'@\', -1), NOW(), NOW(), \'1\')';
+$conf['auth']['params']['query_add'] = 'ADDING USER DISABLED - PLEASE USE PostfixAdmin.';
+$conf['auth']['params']['query_getpw'] = 'SELECT password FROM mailbox WHERE username=\L';
+$conf['auth']['params']['query_update'] = 'UPDATE mailbox SET username=\L, password=\P, modified=NOW() WHERE username=\O;';
+$conf['auth']['params']['query_resetpassword'] = 'UPDATE mailbox SETpassword=\P, modified=NOW() WHERE username=\L;';
+//$conf['auth']['params']['query_remove'] = 'UPDATE mailbox SET active=\'0\' WHERE username=\L;';
+$conf['auth']['params']['query_remove'] = 'REMOVING USER DISABLED - PLEASE USE PostfixAdmin.';
+$conf['auth']['params']['query_list'] = 'SELECT username FROM mailbox WHERE domain=SUBSTRING_INDEX(\L, \'@\', -1) AND active=\'1\'';
+$conf['auth']['params']['query_exists'] = 'SELECT 1 FROM mailbox WHERE username = \L AND active=\'1\'';
+$conf['auth']['params']['encryption'] = 'crypt-md5';

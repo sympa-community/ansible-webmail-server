@@ -1,14 +1,19 @@
 ---
 - name: Installing required Python mysqldb module for Ansible to manage databases
   apt: pkg=python-mysqldb state=installed
+  
 - name: set the MySQL root user's password
   mysql_user: name=root password={{ispmail_mysql_root_password}} state=present
   ignore_errors: yes
+
 - name: creating Postfixadmin MySQL database
-  mysql_db: name=postfixadmin state=present login_user=root login_password={{ispmail_mysql_root_password}}
+  mysql_db: name={{ ispmail_mysql_mail_db_name }} state=present login_user=root login_password={{ispmail_mysql_root_password}}
+
 - name: creating MySQL user to read the postfixadmin database
-  mysql_user: name=postfixadmin password={{ispmail_mysql_mailuser_password}} priv=postfixadmin.*:ALL state=present login_user=root login_password={{ispmail_mysql_root_password}}
+  mysql_user: name={{ ispmail_mysql_mailuser }} password={{ispmail_mysql_mailuser_password}} priv={{ ispmail_mysql_mail_db_name }}.*:ALL state=present login_user=root login_password={{ispmail_mysql_root_password}}
+
 - name: creating Horde MySQL database
-  mysql_db: name=horde state=present login_user=root login_password={{ispmail_mysql_root_password}}
+  mysql_db: name={{ horde_db_name }} state=present login_user=root login_password={{ispmail_mysql_root_password}}
+
 - name: creating MySQL user to read the horde database
-  mysql_user: name={{ horde_db_user }} password={{ horde_db_password }} priv=horde.*:ALL state=present login_user=root login_password={{ispmail_mysql_root_password}}
+  mysql_user: name={{ horde_db_user }} password={{ horde_db_password }} priv={{ horde_db_name }}.*:ALL/{{ ispmail_mysql_mail_db_name }}.*:ALL state=present login_user=root login_password={{ispmail_mysql_root_password}}

@@ -64,6 +64,18 @@
     dest: /usr/share/php/www/horde/config/backends.php
   notify: restart apache
     
+- name: configuring horde to use postfixadmin accounts.
+  template:
+    src: horde-conf.local.php.j2
+    dest: /usr/share/php/www/horde/config/conf.local.php
+  notify: restart apache
+
+- name: Removing config from mnemos element which breaks horde.
+  file:
+    path: /usr/share/php/www/horde/mnemo/config/conf.php 
+    state: absent
+  notify: restart apache
+
 - name: Enabling horde web config
   command: a2enconf horde
   notify: restart apache
