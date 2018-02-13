@@ -1,5 +1,52 @@
-ispmail_populate_test_data: true
+### Start of relevant parameters to be tweaked for developing Sympa ###
 
+# the IP address of the Sympa developement server and the domains it uses.
+ispmail_list_servers:
+  - 
+    domains: ['lists.example.org','robot1.example.org','robot2.example.org']
+    ip: '192.168.66.67'
+
+#The IP of the server where all outgoing emails are going to be sent. set it to the Sympa development server's IP.
+ispmail_outgoing_server: '192.168.66.67'
+
+# Test mail domain. This does not have to be an actual domain.
+ispmail_webmail_hostname: webmail.com
+
+# The login to create/deelete/update email accounts through postfixadmin.
+# When logging in, you will use the following:
+#   - username: <ispmail_admin_users.username>@<ispmail_webmail_hostname>
+#   - password: <ispmail_admin_users.password>
+ispmail_admin_users:
+  -
+    username: 'postmaster'
+    password: 'turlututu01'
+
+# An array of email addresses / passwords to be used in Horde.
+# When logging in, you will use the following:
+#   - username: <ispmail_users.username>@<ispmail_webmail_hostname>
+#   - password: <ispmail_users.password>
+ispmail_users:
+  -
+    username: 'david'
+    password: 'turlututu01'
+
+# Aliases to actual accounts.
+ispmail_aliases:
+  -
+    username: 'root'
+    target: 'david'
+
+### End of relevant parameters to be tweaked for developing Sympa ###
+### Anything below can be changed but, frankly, why would you bother
+### doing it if all you need is a webmail to test Sympa?          ###
+### (in addition, changing md5crypt to something else could break authentication) ###
+
+## Mail configuration details
+ispmail_postmaster_user: postmaster
+ispmail_dovecot_auth_mechanisms: plain login
+password_encryption: md5crypt
+
+## Database credentials and databases
 ispmail_mysql_mailuser: postfixadmin
 ispmail_mysql_mailuser_password: postfixadmin
 ispmail_mysql_mail_db_name: postfixadmin
@@ -8,45 +55,20 @@ horde_db_password: horde
 horde_db_name: horde
 ispmail_mysql_root_password: ChangeMeRoot
 
-ispmail_mysql_root_password: ChangeMeRoot
+## System settings: uid, gid, etc.
+dovecot_user: vmail
+dovecot_uid: 2000
+dovecot_group: vmail
+dovecot_gid: 2000
 
-ispmail_dovecot_auth_mechanisms: plain login
-
-ispmail_postmaster_address: postmaster@example.org
-
-#ispmail_webmail_hostname: mail.example.org
-ispmail_webmail_hostname: webmail.com
-
-ispmail_certificate_country: DE
-ispmail_certificate_state: Hamburg
-ispmail_certificate_location: Hamburg
-ispmail_certificate_organisation: workaround.org
-ispmail_certificate_orgunit: IT-Crowd
+## Dummy certificate details.
+ispmail_certificate_country: FR
+ispmail_certificate_state: Bretagne
+ispmail_certificate_location: Rennes
+ispmail_certificate_organisation: kenavo.com
+ispmail_certificate_orgunit: Ar Mor
 ispmail_certificate_domains:
-  - example.org
-ispmail_certificate_email: postmaster@example.org
+  - webmail.com
+ispmail_certificate_email: postmaster@webmail.com
 ispmail_certificate_days_valid: 3650
 
-ispmail_list_servers:
-  - 
-    domains: ['lists.example.org','robot1.example.org','robot2.example.org']
-    ip: '192.168.66.67'
-
-ispmail_outgoing_server: '192.168.66.67'
-
-ispmail_admin_users:
-  -
-    username: 'postmaster'
-    password: 'turlututu01'
-
-ispmail_users:
-  -
-    username: 'david'
-    password: 'turlututu01'
-
-dovecot_user: vmail
-dovecot_uid: "2000"
-dovecot_group: vmail
-dovecot_gid: "2000"
-
-password_encryption: md5crypt

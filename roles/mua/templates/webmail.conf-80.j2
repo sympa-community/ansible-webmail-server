@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-	ServerAdmin {{ ispmail_postmaster_address }}
+	ServerAdmin {{ ispmail_postmaster_user }}@{{ ispmail_webmail_hostname }}
 	ServerName {{ ispmail_webmail_hostname }}
 
 	Redirect permanent / https://{{ ispmail_webmail_hostname}}/
