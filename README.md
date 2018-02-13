@@ -49,7 +49,7 @@ You can login to the VM using `$ vagrant ssh`
 Finally, edit the `/etc/hosts` on your computer. It must resolve your webmail domain with the webmail VM IP.
 By default, you should have this:
 
-  192.168.66.66 webmail.com
+    192.168.66.66 webmail.com
 
 Once the playbbok has been run, you have two tools installed: horde and postfixadmin.
 
@@ -68,11 +68,11 @@ Authenticate using the logins defined in `ispmail_users` (<ispmail_users.usernam
 The Sympa development list server must be tune to use this webmail as unique destnation for all emails. You'll do it by setting the following parameter:
 In `environments/template/group_vars/sympa.yml`, The following parameters must have the same values:
 
-  sympa_force_smtp_route: 1
-  
-  sympa_incoming_smtp: '192.168.66.66'
-  
-  sympa_outgoing_server: "{{ sympa_incoming_smtp }}"
+    sympa_force_smtp_route: 1
+
+    sympa_incoming_smtp: '192.168.66.66'
+
+    sympa_outgoing_server: "{{ sympa_incoming_smtp }}"
 
 The re-run the site.yml playbook.
 Your Sympa server will now send message to the webmail, and accept messages from it.
