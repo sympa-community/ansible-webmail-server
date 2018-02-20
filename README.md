@@ -13,9 +13,9 @@ This playbook is designed to be used with the Sympa server deployed using the Sy
 First install the tools on your local machine:
 
 * Install [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org). Virtualbox will run 
-  the development VM and Vagrant is used to create, configure and manage the development VM instance.
+  the development VM and Vagrant is used to create, configure and manage the development VM instance. **Warning: You will need at least Vagrant 2.0 !**
 * Install [Ansible](http://www.ansible.com). There are several ways to install Ansible. They are described in the 
-  [Ansible installation guide](http://docs.ansible.com/ansible/intro_installation.html).
+  [Ansible installation guide](http://docs.ansible.com/ansible/intro_installation.html). **Warning: You will need at least Ansible 2.4.0 !**
 
 Clone or download this repository to your local machine if you haven't already. Next change into the "ansible-webmail-server" 
 directory (i.e. where this README is located) and create and start the development VM: 
