@@ -40,7 +40,7 @@
   failed_when: webmail_package_installed.rc >= 2
 
 - name: Install horde webmail
-  command: pear install -a -B horde/webmail
+  command: pear install -a -B --force horde/webmail
   when: webmail_package_installed.stdout == ''
 
 - name: Finalize horde webmail install
