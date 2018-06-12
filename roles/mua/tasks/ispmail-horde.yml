@@ -43,6 +43,10 @@
   command: pear install -a -B --force horde/webmail
   when: webmail_package_installed.stdout == ''
 
+- name: Fixing syntax error in a dependency PHP module.
+  command: sed -i '167s/&//' /usr/share/php/Services/Weather.php
+  become: true
+
 - name: Finalize horde webmail install
   command: /tmp/webmail_install-script.sh
   become: true
